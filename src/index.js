@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 
 export default class ReactGoogleAutocomplete extends React.PureComponent {
   static propTypes = {
@@ -87,7 +87,8 @@ export default class ReactGoogleAutocomplete extends React.PureComponent {
       ...rest
     } = this.props;
 
-    return <TextField inputProps={{ ref: 'input', ...rest }} />;
+    return <input ref="input" {...rest} />;
+    // return <TextField inputProps={{ ref: 'input', ...rest }} />;
   }
 }
 
