@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TextField from '@material-ui/core/TextField';
 
-export default class ReactGoogleAutocomplete extends React.Component {
+export default class ReactGoogleAutocomplete extends React.PureComponent {
   static propTypes = {
     onPlaceSelected: PropTypes.func,
     types: PropTypes.array,
     componentRestrictions: PropTypes.object,
     bounds: PropTypes.object,
     fields: PropTypes.array,
-  }
+  }``
 
   constructor(props) {
     super(props);
@@ -70,9 +71,8 @@ export default class ReactGoogleAutocomplete extends React.Component {
     const {onPlaceSelected, types, componentRestrictions, bounds, ...rest} = this.props;
 
     return (
-      <input
-        ref="input"
-        {...rest}
+      <TextField
+        inputProps={{ ref: "input", ...rest }}
       />
     );
   }

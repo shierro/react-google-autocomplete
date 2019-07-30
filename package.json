@@ -1,6 +1,6 @@
 {
   "name": "react-google-autocomplete",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "React component for google autocomplete.",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/ErrorPro/react-google-autocomplete#readme",
   "dependencies": {
+    "@material-ui/core": "^4.3.0",
     "prop-types": "^15.5.0"
   },
   "peerDependencies": {
