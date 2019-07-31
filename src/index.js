@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField';
 
 export default class ReactGoogleAutocomplete extends React.PureComponent {
   static propTypes = {
@@ -15,6 +15,7 @@ export default class ReactGoogleAutocomplete extends React.PureComponent {
     super(props);
     this.autocomplete = null;
     this.event = null;
+    this.inputRef = React.createRef();
   }
 
   componentDidMount() {
@@ -42,7 +43,7 @@ export default class ReactGoogleAutocomplete extends React.PureComponent {
     this.disableAutofill();
 
     this.autocomplete = new google.maps.places.Autocomplete(
-      this.refs.input,
+      this.inputRef,
       config,
     );
 
@@ -57,11 +58,11 @@ export default class ReactGoogleAutocomplete extends React.PureComponent {
     if (window.MutationObserver) {
       const observerHack = new MutationObserver(() => {
         observerHack.disconnect();
-        if (this.refs && this.refs.input) {
-          this.refs.input.autocomplete = 'disable-autofill';
+        if (this.inputRef) {
+          this.inputRef.autocomplete = 'off';
         }
       });
-      observerHack.observe(this.refs.input, {
+      observerHack.observe(this.inputRef, {
         attributes: true,
         attributeFilter: ['autocomplete'],
       });
@@ -84,15 +85,21 @@ export default class ReactGoogleAutocomplete extends React.PureComponent {
       types,
       componentRestrictions,
       bounds,
+      textFieldProps = {},
       ...rest
     } = this.props;
 
-    return <input ref="input" {...rest} />;
-    // return <TextField inputProps={{ ref: 'input', ...rest }} />;
+    return (
+      <TextField
+        inputProps={rest}
+        inputRef={ref => this.inputRef = ref}
+        {...textFieldProps}
+      />
+    );
   }
 }
 
-export class ReactCustomGoogleAutocomplete extends React.Component {
+export class ReactCustomGoogleAutocomplete extends React.PureComponent {
   static propTypes = {
     input: PropTypes.node.isRequired,
     onOpen: PropTypes.func.isRequired,
@@ -131,7 +138,7 @@ export class ReactCustomGoogleAutocomplete extends React.Component {
         { placeId: this.props.input.value },
         (e, status) => {
           if (status === 'OK') {
-            this.refs.input.value = e.formatted_address;
+            this.inputRef.value = e.formatted_address;
           }
         },
       );
@@ -144,9 +151,7 @@ export class ReactCustomGoogleAutocomplete extends React.Component {
         {React.cloneElement(this.props.input, {
           ...this.props,
           ref: 'input',
-          onChange: e => {
-            this.onChange(e);
-          },
+          onChange: this.onChange,
         })}
         <div ref="div"></div>
       </div>
